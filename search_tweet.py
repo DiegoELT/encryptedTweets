@@ -23,9 +23,14 @@ print("Messaged cyphered succesfully")
 
 twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
 
+timeline = twitter.get_user_timeline(screen_name='fakest_ever',
+        count=1)
 
-tweets = twitter.search(q='python', result_type='popular')
+print (timeline[0]['text'])
 
-print(tweets["statuses"][0]["text"])
+
+#tweets = twitter.search(q='python', result_type='popular')
+
+#print(tweets["statuses"][0]["text"])
 
 

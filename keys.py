@@ -9,7 +9,7 @@ def get_public_from_private (asymm_key):
 def create_private_key_file (filename): 
     private_key = rsa.generate_private_key (
         public_exponent = 65537, 
-        key_size = 1790,
+        key_size = 1300,
         backend = default_backend()
     )
     pem = private_key.private_bytes (

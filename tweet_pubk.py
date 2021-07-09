@@ -9,14 +9,11 @@ from cryptography.hazmat.backends import default_backend
 
 testfile = "test.pem"
 
-#message = "Test Message"
-message = input()
 
-#keys.create_private_key_file(testfile)
+keys.create_private_key_file(testfile)
 
 private_key = keys.read_private_key(testfile)
 
-'''
 public_key = keys.get_public_from_private(private_key)
 
 pem = public_key.public_bytes(encoding=serialization.Encoding.PEM,
@@ -24,18 +21,8 @@ pem = public_key.public_bytes(encoding=serialization.Encoding.PEM,
 
 with open('public_key.pem', 'wb') as f:
     f.write(pem)
-'''
 
-with open("public_key.pem", "rb") as key_file:
-    public_key = serialization.load_pem_public_key(
-            key_file.read(),
-            backend=default_backend()
-            )
-
-
-encrypted = encrypt.encrypt_with_key(public_key, message) # Currently only working until 158 characters per message
-
-print("Messaged cyphered succesfully")
+print('Keys generated')
 
 #########################
 
@@ -49,22 +36,14 @@ OAUTH_TOKEN_SECRET = os.getenv('OAUTH_TOKEN_SECRET')
 twitter = Twython(APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
 print('Keys recovered succesfully')
 
-encoded = base64.b85encode(encrypted)
 
 ##########################
-'''
 pubfile = open('public_key.pem','r+')
 arr = pubfile.readlines()
 arr = arr[1:-1]
 pubkey = ''.join(arr)
 
-'''
-repl = str(encoded).replace('@','á')
-repl = repl.replace('#','é')
-repl = repl.replace('.','ó')
-repl = repl[2:-1]
-
-twitter.update_status(status=repl)
+twitter.update_status(status=pubkey)
 print("Tweet posted")
 
 ##########################
@@ -75,26 +54,18 @@ timeline = twitter.get_user_timeline(screen_name='fakest_ever',
 print('Timeline recovered')
 
 ourtweet = timeline[0]['full_text']
-#decoded = bytearray(ourtweet)
 
 ourtweet = ourtweet.replace('&gt;','>')
 ourtweet = ourtweet.replace('&lt;','<')
 ourtweet = ourtweet.replace('amp;','')
 
-ourtweet = ourtweet.replace('á','@')
-ourtweet = ourtweet.replace('é','#')
-ourtweet = ourtweet.replace('ó','.')
 
+print('Public key recovered')
 
-print('Lastest tweet recovered')
-
-'''
 with open('recovered_public_key.pem', 'w') as f:
     f.write('-----BEGIN PUBLIC KEY-----\n')
     f.write(ourtweet)
     f.write('\n-----END PUBLIC KEY-----')
-'''
 
-decoded = base64.b85decode(ourtweet)
-print("decrypted tweet: ", encrypt.decrypt_with_key(private_key, decoded))
+print('public key saved as recovered_public_key.pem')
 
