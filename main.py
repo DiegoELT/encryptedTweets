@@ -6,11 +6,32 @@ from twython import Twython
 import base64
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.backends import default_backend
+from flask import Flask, request, render_template
 
 testfile = "test.pem"
 
 #message = "Test Message"
-message = input()
+#message = input()
+
+
+#################################
+
+app = Flask(__name__)
+
+@app.route('/')
+def box():
+    return render_template('box.html')
+
+@app.route('/post_tweet', methods=['POST'])
+def post_tweet():
+    text = request.form['tweet']
+    message = text
+    return message
+
+app.run(host='localhost', port=5000)
+
+##################################
+
 
 #keys.create_private_key_file(testfile)
 

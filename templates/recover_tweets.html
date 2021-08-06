@@ -1,0 +1,18 @@
+<label for="fname">Last 10 tweets recovered:</label><br>
+
+<table style="w3-table w3-striped w3-bordered">
+<tr>
+  <th>Encrypted Tweet</th>
+  <th>Decrypted Tweet</th>
+</tr>
+
+
+{% for encrypt, decrypt in data: %}
+
+<tr>
+    <td style="height:100px;width:10px">{{ encrypt }}</td>
+    <td style="height:100px;width:10px">{{ decrypt }}</td>
+</tr>
+
+{% endfor %}
+</table>
